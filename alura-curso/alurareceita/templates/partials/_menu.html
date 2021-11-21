@@ -57,7 +57,7 @@
                         <!-- Nav Start -->
                         <div class="classynav">
                             <ul>
-                                {% if user.activated %}
+                                {% if user.is_activated %}
                                     <li><a href="{% url 'index' %}">Home</a></li>
                                     <li><a href="{% url 'dashboard' %}">Minhas Receitas</a></li>
                                     <li><a href="{% url 'logout' %}">Logout</a></li>  

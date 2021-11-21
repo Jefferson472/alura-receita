@@ -1,6 +1,7 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from receitas.models import Receita
 
 # Create your views here.
 
@@ -28,7 +29,7 @@ def cadastro(request):
         return render(request, 'usuario/cadastro.html')
 
 
-def login(request):    
+def login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         senha = request.POST.get('password')
@@ -36,7 +37,7 @@ def login(request):
             nome = User.objects.get(email=email).username
             #senha = User.objects.get(email=email).password
             user = authenticate(request, username=nome, password=senha)
-            print(nome, senha, user)            
+            print(nome, senha, user)
             if user is not None:
                 login(user)
                 print('Login realizado com sucesso')
@@ -50,4 +51,35 @@ def logout(request):
 
 
 def dashboard(request):
-    return render(request, 'usuario/dashboard.html')
+    id = request.user.id
+    receitas = Receita.objects.order_by('-data_receita').filter(pessoa=id)
+    dados = {
+        'receitas': receitas
+    }
+    return render(request, 'usuario/dashboard.html', dados)
+
+
+def cria_receita(request):
+    if request.method == 'POST':
+        nome_receita = request.POST.get('nome_receita')
+        ingredientes = request.POST.get('ingredientes')
+        modo_preparo = request.POST.get('modo_preparo')
+        tempo_preparo = request.POST.get('tempo_preparo')
+        rendimento = request.POST.get('rendimento')
+        categoria = request.POST.get('categoria')
+        foto_receita = request.FILES.get('foto_receita')
+        user = get_object_or_404(User, pk=request.user.id)
+        receita = Receita.objects.create(
+            pessoa=user,
+            nome_receita=nome_receita,
+            ingredientes=ingredientes,
+            mode_preparo=modo_preparo,
+            tempo_preparo=tempo_preparo,
+            rendimento=rendimento,
+            categoria=categoria,
+            foto_receita=foto_receita
+            )
+        receita.save()
+        return redirect('dashboard')
+    else:
+        return render(request, 'usuario/cria_receita.html')
