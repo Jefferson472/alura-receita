@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib import auth
 from receitas.models import Receita
+from django.contrib import messages
 
 # Create your views here.
 
@@ -13,18 +14,20 @@ def cadastro(request):
         senha = request.POST.get('password')
         senha2 = request.POST.get('password2')
         if not nome.strip() or not email.strip():
-            print('O campo nome e email não pode ficar em branco')
+            messages.error(request, 'O campo nome e email não pode ficar em branco')
             return redirect('cadastro')
         if senha != senha2:
             print('As senhas não conferem')
+            messages.error(request, 'As senhas não são iguais')
             return redirect('cadastro')
         if User.objects.filter(email=email).exists():
-            print('E-mail já cadastrado')
+            messages.error(request, 'E-mail já cadastrado')
             return redirect('cadastro')
         user = User.objects.create_user(
             username=nome, email=email, password=senha)
         user.save()
-        return redirect('login.html')
+        messages.add_message(request, messages.SUCCESS, 'Cadastro realizado com sucesso!')
+        return redirect('login')
     else:
         return render(request, 'usuario/cadastro.html')
 
@@ -32,31 +35,33 @@ def cadastro(request):
 def login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
-        senha = request.POST.get('password')
+        senha = request.POST.get('senha')
         if User.objects.filter(email=email).exists():
             nome = User.objects.get(email=email).username
-            #senha = User.objects.get(email=email).password
-            user = authenticate(request, username=nome, password=senha)
-            print(nome, senha, user)
+            user = auth.authenticate(username=nome, password=senha)
+            print(user, nome, senha)
             if user is not None:
-                login(user)
+                auth.login(request, user)
                 print('Login realizado com sucesso')
                 return redirect('dashboard')
     return render(request, 'usuario/login.html')
 
 
 def logout(request):
-    request.logout()
+    auth.logout(request)
     return redirect('login')
 
 
 def dashboard(request):
-    id = request.user.id
-    receitas = Receita.objects.order_by('-data_receita').filter(pessoa=id)
-    dados = {
-        'receitas': receitas
-    }
-    return render(request, 'usuario/dashboard.html', dados)
+    if request.user.is_authenticated:
+        id = request.user.id
+        receitas = Receita.objects.order_by('-data_receita').filter(pessoa=id)
+        dados = {
+            'receitas': receitas
+        }
+        return render(request, 'usuario/dashboard.html', dados)
+    else:
+        return redirect('index')
 
 
 def cria_receita(request):

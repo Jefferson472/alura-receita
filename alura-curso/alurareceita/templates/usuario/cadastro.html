@@ -20,7 +20,8 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        {% include 'partials/_alertas.html' %}
+        <div class="row">            
             <div class="col-12">
                 <div class="contact-form-area">
                     <form action="{% url 'cadastro' %}" method="POST">
