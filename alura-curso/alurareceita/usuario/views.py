@@ -39,11 +39,14 @@ def login(request):
         if User.objects.filter(email=email).exists():
             nome = User.objects.get(email=email).username
             user = auth.authenticate(username=nome, password=senha)
-            print(user, nome, senha)
             if user is not None:
                 auth.login(request, user)
                 print('Login realizado com sucesso')
                 return redirect('dashboard')
+        else:
+            print('Usuário não cadastrado')
+            messages.error(request, 'Usuário não cadastrado')
+            return redirect('login')
     return render(request, 'usuario/login.html')
 
 
@@ -87,4 +90,34 @@ def cria_receita(request):
         receita.save()
         return redirect('dashboard')
     else:
-        return render(request, 'usuario/cria_receita.html')
+        return render(request, 'receitas/cria_receita.html')
+
+
+def deleta_receita(request, receita_id):
+    receita = get_object_or_404(Receita, pk=receita_id)
+    receita.delete()
+    return redirect('dashboard')
+
+
+def edita_receita(request, receita_id):
+    receita = get_object_or_404(Receita, pk=receita_id)
+    receita_a_editar = {
+        'receita': receita
+    }
+    return render(request, 'receitas/edita_receita.html', receita_a_editar)
+
+
+def atualiza_receita(request):
+    if request.method == 'POST':
+        receita_id = request.POST['receita_id']
+        receita = Receita.objects.get(pk=receita_id)
+        receita.nome_receita = request.POST.get('nome_receita')
+        receita.ingredientes = request.POST.get('ingredientes')
+        receita.mode_preparo = request.POST.get('modo_preparo')
+        receita.tempo_preparo = request.POST.get('tempo_preparo')
+        receita.rendimento = request.POST.get('rendimento')
+        receita.categoria = request.POST.get('categoria')
+        if request.FILES.get('foto_receita'):
+            receita.foto_receita = request.FILES.get('foto_receita')
+        receita.save()
+    return redirect('dashboard')
