@@ -12,6 +12,6 @@
 
 
 3. [Alura TDD Busca Animal](https://github.com/Jefferson472/apredendo-django/tree/main/tdd_busca_animal)
-<img src="img\print_busca_animal.png" width="375" height="200"/>
+<img src="img\print_busca_animal.png" width="400" height="200"/>
 
 
