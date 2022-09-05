@@ -25,4 +25,4 @@ class Receita(models.Model):
         return self.nome_receita
 
     def get_absolute_url(self):
-        return reverse('receita', kwargs={'receita_id': self.id})
+        return reverse('receita', kwargs={'pk': self.id})

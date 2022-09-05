@@ -6,30 +6,13 @@ from django.views import generic
 from apps.receitas.models import Receita
 
 
-class ReceitasView(generic.ListView):
+class ReceitaListView(generic.ListView):
     model = Receita
-    queryset = Receita.objects.order_by('-create_at').filter(status=True)[3]
+    queryset = Receita.objects.order_by('-create_at').filter(status=True)[:6]
 
 
-def index(request):
-    receitas = Receita.objects.order_by('-create_at').filter(status=True)
-    paginator = Paginator(receitas, 3)
-    pagina_atual = request.GET.get('page')
-    receitas_por_pagina = paginator.get_page(pagina_atual)
-    dados = {
-        'receitas': receitas_por_pagina
-    }
-    return render(request, 'receitas/index.html', dados)
-
-
-def receita(request, receita_id):
-    receita = get_object_or_404(Receita, pk=receita_id)
-
-    receita_a_exibir = {
-        'receita': receita
-    }
-
-    return render(request, 'receitas/receita.html', receita_a_exibir)
+class ReceitaDetailView(generic.DetailView):
+    model = Receita
 
 
 def cria_receita(request):
