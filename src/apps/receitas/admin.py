@@ -1,17 +1,16 @@
 from django.contrib import admin
-from .models import Receita
 
-# Register your models here.
+from apps.receitas.models import Receita
 
+@admin.register(Receita)
+class ReceitasAdmin(admin.ModelAdmin):
+    list_display = (
+        'id','nome_receita', 'categoria',
+        'tempo_preparo', 'status'
+    )
 
-class ListandoReceitas(admin.ModelAdmin):
-    list_display = ('id', 'nome_receita', 'categoria',
-                    'tempo_preparo', 'publicada')
     list_display_links = ('id', 'nome_receita')
     search_fields = ('nome_receita',)
     list_filter = ('categoria',)
-    list_editable = ('publicada',)
+    list_editable = ('status',)
     list_per_page = 5
-
-
-admin.site.register(Receita, ListandoReceitas)
