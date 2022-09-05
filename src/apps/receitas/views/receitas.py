@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
-from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, render, redirect
-from django.views import generic 
+from django.views import generic
+from django.views.generic.edit import CreateView
 
 from apps.receitas.models import Receita
 
@@ -15,30 +15,17 @@ class ReceitaDetailView(generic.DetailView):
     model = Receita
 
 
-def cria_receita(request):
-    if request.method == 'POST':
-        nome_receita = request.POST.get('nome_receita')
-        ingredientes = request.POST.get('ingredientes')
-        modo_preparo = request.POST.get('modo_preparo')
-        tempo_preparo = request.POST.get('tempo_preparo')
-        rendimento = request.POST.get('rendimento')
-        categoria = request.POST.get('categoria')
-        foto_receita = request.FILES.get('foto_receita')
-        user = get_object_or_404(User, pk=request.user.id)
-        receita = Receita.objects.create(
-            pessoa=user,
-            nome_receita=nome_receita,
-            ingredientes=ingredientes,
-            mode_preparo=modo_preparo,
-            tempo_preparo=tempo_preparo,
-            rendimento=rendimento,
-            categoria=categoria,
-            foto_receita=foto_receita
-            )
-        receita.save()
-        return redirect('dashboard')
-    else:
-        return render(request, 'receitas/cria_receita.html')
+class ReceitaCreateView(CreateView):
+    model = Receita
+    fields = [
+        'nome_receita', 'ingredientes', 'modo_preparo',
+        'tempo_preparo', 'rendimento', 'categoria', 'foto_receita'
+    ]
+    success_url = 'dashboard'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 def deleta_receita(request, receita_id):
