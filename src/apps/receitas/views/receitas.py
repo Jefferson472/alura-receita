@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView
 
 from apps.receitas.models import Receita
 
@@ -28,10 +28,9 @@ class ReceitaCreateView(CreateView):
         return super().form_valid(form)
 
 
-def deleta_receita(request, receita_id):
-    receita = get_object_or_404(Receita, pk=receita_id)
-    receita.delete()
-    return redirect('dashboard')
+class ReceitaDeleteView(DeleteView):
+    model = Receita
+    success_url = 'dashboard'
 
 
 def edita_receita(request, receita_id):
