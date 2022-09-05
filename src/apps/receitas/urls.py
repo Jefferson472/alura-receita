@@ -1,6 +1,10 @@
 from django.urls import path
 
-from .views import *
+from apps.receitas.views.busca import buscar
+from apps.receitas.views.receitas import (
+    index, receita, cria_receita, deleta_receita, edita_receita, atualiza_receita
+)
+
 
 urlpatterns = [
     path('', index, name='index'),

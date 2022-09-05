@@ -1,10 +1,9 @@
-from django.shortcuts import get_object_or_404, render, redirect
-from receitas.models import Receita
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import get_object_or_404, render, redirect
 
+from apps.receitas.models import Receita
 
-# Create your views here.
 
 def index(request):
     receitas = Receita.objects.order_by('-data_receita').filter(publicada=True)

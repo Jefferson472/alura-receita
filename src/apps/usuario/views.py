@@ -1,8 +1,9 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib import auth
-from receitas.models import Receita
 from django.contrib import messages
+
+from apps.receitas.models import Receita
 
 # Create your views here.
 
