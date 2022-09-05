@@ -1,12 +1,18 @@
 from django.contrib.auth.models import User
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, render, redirect
+from django.views import generic 
 
 from apps.receitas.models import Receita
 
 
+class ReceitasView(generic.ListView):
+    model = Receita
+    queryset = Receita.objects.order_by('-create_at').filter(status=True)[3]
+
+
 def index(request):
-    receitas = Receita.objects.order_by('-data_receita').filter(publicada=True)
+    receitas = Receita.objects.order_by('-create_at').filter(status=True)
     paginator = Paginator(receitas, 3)
     pagina_atual = request.GET.get('page')
     receitas_por_pagina = paginator.get_page(pagina_atual)
