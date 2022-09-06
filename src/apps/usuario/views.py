@@ -69,4 +69,4 @@ def dashboard(request):
         }
         return render(request, 'usuario/dashboard.html', dados)
     else:
-        return redirect('index')
+        return redirect('receitas')
