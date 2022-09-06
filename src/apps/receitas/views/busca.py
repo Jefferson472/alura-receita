@@ -4,17 +4,11 @@ from apps.receitas.models import Receita
 
 
 def buscar(request):
-    lista_receitas = Receita.objects.order_by(
-        '-data_receita').filter(publicada=True)
+    receitas = Receita.objects.order_by('-create_at').filter(status=True)
 
     if 'buscar' in request.GET:
-        nome_a_buscar = request.GET['buscar']
+        termo = request.GET['buscar']
         if buscar:
-            lista_receitas = lista_receitas.filter(
-                nome_receita__icontains=nome_a_buscar)
+            receitas = receitas.filter(nome_receita__icontains=termo)
 
-    dados = {
-        'receitas': lista_receitas
-    }
-
-    return render(request, 'receitas/buscar.html', dados)
+    return render(request, 'receitas/buscar.html', {'receitas': receitas})

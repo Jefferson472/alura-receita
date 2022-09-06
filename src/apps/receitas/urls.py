@@ -18,5 +18,5 @@ urlpatterns = [
     path('receita/editar/<int:pk>', ReceitaUpdateView.as_view(), name='edita_receita'),
 
     # Busca
-    path('busca', buscar, name='buscar'),
+    path('busca/', buscar, name='buscar'),
 ]
