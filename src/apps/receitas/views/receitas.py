@@ -1,7 +1,6 @@
-from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
-from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.urls import reverse_lazy
 
 from apps.receitas.models import Receita
 
@@ -21,7 +20,7 @@ class ReceitaCreateView(CreateView):
         'nome_receita', 'ingredientes', 'modo_preparo',
         'tempo_preparo', 'rendimento', 'categoria', 'foto_receita'
     ]
-    success_url = 'dashboard'
+    success_url = 'usuario/dashboard'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -30,28 +29,14 @@ class ReceitaCreateView(CreateView):
 
 class ReceitaDeleteView(DeleteView):
     model = Receita
-    success_url = 'dashboard'
+    success_url = reverse_lazy('dashboard')
 
 
-def edita_receita(request, receita_id):
-    receita = get_object_or_404(Receita, pk=receita_id)
-    receita_a_editar = {
-        'receita': receita
-    }
-    return render(request, 'receitas/edita_receita.html', receita_a_editar)
-
-
-def atualiza_receita(request):
-    if request.method == 'POST':
-        receita_id = request.POST['receita_id']
-        receita = Receita.objects.get(pk=receita_id)
-        receita.nome_receita = request.POST.get('nome_receita')
-        receita.ingredientes = request.POST.get('ingredientes')
-        receita.mode_preparo = request.POST.get('modo_preparo')
-        receita.tempo_preparo = request.POST.get('tempo_preparo')
-        receita.rendimento = request.POST.get('rendimento')
-        receita.categoria = request.POST.get('categoria')
-        if request.FILES.get('foto_receita'):
-            receita.foto_receita = request.FILES.get('foto_receita')
-        receita.save()
-    return redirect('dashboard')
+class ReceitaUpdateView(UpdateView):
+    model = Receita
+    fields = [
+        'nome_receita', 'ingredientes', 'modo_preparo',
+        'tempo_preparo', 'rendimento', 'categoria', 'foto_receita'
+    ]
+    success_url = reverse_lazy('dashboard')
+    template_name_suffix = '_update_form'
