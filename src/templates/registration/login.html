@@ -21,20 +21,21 @@
                 </div>
             </div>
         </div>
+        
         {% include 'partials/_alertas.html' %}
         <div class="row">
             <div class="col-12">
                 <div class="contact-form-area">
-                    <form action="{% url 'login' %}" method="POST">
+                    <form method="POST">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-12 col-lg-12">
                             <label for="email"><b>Email</b></label>
-                                <input type="text" id="email" class="form-control" name="email" placeholder="Entre com o email cadastrado">
+                                <input type="text" id="username" class="form-control" name="username" placeholder="Entre com o email cadastrado">
                             </div>
                                 <div class="col-12 col-lg-12">
                                 <label for="senha"><b>Senha</b></label>
-                                <input id="senha" type="password" class="form-control" name="senha" placeholder="Digite aqui sua senha">
+                                <input id="senha" type="password" class="form-control" name="password" placeholder="Digite aqui sua senha">
                             </div>
                             <div class="col-12 text-center">
                                 <button class="btn btn-success" type="submit">Acessar sua conta</button>

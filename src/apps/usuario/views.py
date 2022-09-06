@@ -1,11 +1,8 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
-from django.contrib import auth
 from django.contrib import messages
 
 from apps.receitas.models import Receita
-
-# Create your views here.
 
 
 def cadastro(request):
@@ -35,29 +32,6 @@ def cadastro(request):
         return redirect('login')
     else:
         return render(request, 'usuario/cadastro.html')
-
-
-def login(request):
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        senha = request.POST.get('senha')
-        if User.objects.filter(email=email).exists():
-            nome = User.objects.get(email=email).username
-            user = auth.authenticate(username=nome, password=senha)
-            if user is not None:
-                auth.login(request, user)
-                print('Login realizado com sucesso')
-                return redirect('dashboard')
-        else:
-            print('Usuário não cadastrado')
-            messages.error(request, 'Usuário não cadastrado')
-            return redirect('login')
-    return render(request, 'usuario/login.html')
-
-
-def logout(request):
-    auth.logout(request)
-    return redirect('login')
 
 
 def dashboard(request):
