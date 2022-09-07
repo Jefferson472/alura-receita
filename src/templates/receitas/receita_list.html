@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- ##### Best Receipe Area Start ##### -->
+<section class="best-receipe-area">
+    <div class="container">
+        <div class="row">
+            <!-- Single Best Receipe Area -->
+            {% if receita_list %}
+            {% for receita in receita_list %}
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="single-best-receipe-area mb-30">
+                    {% if receita.foto_receita == '' %}
+                        <img src="{% static 'img/bg-img/foto_receita.png' %}" alt="">
+                    {% else %}
+                        <img src="{{receita.foto_receita.url}}" alt="">
+                    {% endif %}
+                    <div class="receipe-content">
+                        <a href="{{ receita.get_absolute_url }}">
+                            <h5>{{receita.nome_receita}}</h5>
+                        </a>
+                    </div>
+                </div>
+            </div>  
+            {% endfor%}
+            {% else %}
+            {% endif %}                          
+        </div>
+    </div>
+</section>
+<!-- ##### Best Receipe Area End ##### -->
+{% include 'partials/_pagination.html' %}
+
+{% endblock %}
+

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<!-- Preloader -->
+<div id="preloader">
+    <i class="circle-preloader"></i>
+    <img src="{% static 'img/core-img/hamburger.png' %}" alt="">
+</div>
+
+<!-- Search Wrapper -->
+<div class="search-wrapper">
+    <!-- Close Btn -->
+    <div class="close-btn"><i class="fa fa-times" aria-hidden="true"></i></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form action="{% url 'buscar' %}">
+                    <input type="text" name="buscar" placeholder="O que está procurando...">
+                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="best-receipe-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="single-best-receipe-area mb-30">
+                    <form method="post">{% csrf_token %}
+                        <p>Are you sure you want to delete "{{ object }}"?</p>
+                        {{ form }}
+                        <input type="submit" value="Confirm" class="btn btn-danger">
+                    </form>
+                </div>
+            </div>                        
+        </div>
+    </div>
+</section>
+
+{% endblock %}
