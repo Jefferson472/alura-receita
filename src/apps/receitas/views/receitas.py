@@ -7,7 +7,8 @@ from apps.receitas.models import Receita
 
 class ReceitaListView(generic.ListView):
     model = Receita
-    queryset = Receita.objects.order_by('-create_at').filter(status=True)[:6]
+    paginate_by = 6
+    queryset = Receita.objects.order_by('-create_at').filter(status=True)
 
 
 class ReceitaDetailView(generic.DetailView):
