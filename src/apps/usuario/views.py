@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
 
-from apps.usuario.forms import RegisterForm
 from apps.receitas.models import Receita
+from apps.usuario.forms import RegisterForm
 
 
 def cadastro(request):
@@ -19,13 +19,9 @@ def cadastro(request):
         form = RegisterForm()
     return render(request, 'usuario/cadastro.html', {'form': form})
 
-
 def dashboard(request):
     if request.user.is_authenticated:
         receitas = Receita.objects.order_by('-create_at').filter(user=request.user)
-        context = {
-            'receitas': receitas
-        }
-        return render(request, 'usuario/dashboard.html', context)
+        return render(request, 'usuario/dashboard.html', {'receitas': receitas})
     else:
         return redirect('receitas')
