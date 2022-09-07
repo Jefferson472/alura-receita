@@ -21,7 +21,14 @@
 </head>
 
 <body>
-    {% block content %} {% endblock %}
+    {% include 'partials/_busca.html' %}
+    {% include 'partials/_menu.html' %}
+
+    {% block content %}
+        {% include 'partials/_preloader.html' %}
+    {% endblock %}
+    
+    {% include 'partials/_footer.html' %}
 
     <!-- ##### All Javascript Files ##### -->
     <!-- jQuery-2.2.4 js -->
