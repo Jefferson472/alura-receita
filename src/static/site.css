@@ -1374,6 +1374,6 @@ textarea:focus {
 /*# sourceMappingURL=style.css.map */
 
 .single-best-receipe-area img {
-  height: 35vh;
-  max-height: 35vh;
+  height: 235px;
+  width: 100%;
 }
