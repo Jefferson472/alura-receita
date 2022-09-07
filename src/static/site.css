@@ -1021,15 +1021,17 @@ textarea:focus {
 
 .single-preparation-step {
   position: relative;
+  display: flex;
+  flex-direction: column;
   z-index: 1;
-  margin-bottom: 50px; }
-  .single-preparation-step h4 {
+  margin-bottom: 50px; 
+}.single-preparation-step h4 {
     color: #474747;
     -webkit-box-flex: 0;
     -ms-flex: 0 0 60px;
     flex: 0 0 60px;
-    max-width: 60px;
-    width: 60px;
+    /* max-width: 60px; */
+    /* width: 60px; */
     margin-bottom: 0; }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -1370,3 +1372,8 @@ textarea:focus {
     padding-left: 30px; }
 
 /*# sourceMappingURL=style.css.map */
+
+.single-best-receipe-area img {
+  height: 35vh;
+  max-height: 35vh;
+}
