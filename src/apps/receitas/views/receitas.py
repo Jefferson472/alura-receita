@@ -20,7 +20,7 @@ class ReceitaCreateView(CreateView):
         'nome_receita', 'ingredientes', 'modo_preparo',
         'tempo_preparo', 'rendimento', 'categoria', 'foto_receita'
     ]
-    success_url = 'usuario/dashboard'
+    success_url = reverse_lazy('dashboard')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
