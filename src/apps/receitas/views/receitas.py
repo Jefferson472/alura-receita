@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
@@ -15,8 +16,10 @@ class ReceitaDetailView(generic.DetailView):
     model = Receita
 
 
-class ReceitaCreateView(CreateView):
+class ReceitaCreateView(LoginRequiredMixin, CreateView):
     model = Receita
+    login_url = '/login/'
+    redirect_field_name = 'login'
     fields = [
         'nome_receita', 'ingredientes', 'modo_preparo',
         'tempo_preparo', 'rendimento', 'categoria', 'foto_receita'
@@ -28,12 +31,14 @@ class ReceitaCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ReceitaDeleteView(DeleteView):
+class ReceitaDeleteView(LoginRequiredMixin, DeleteView):
     model = Receita
     success_url = reverse_lazy('dashboard')
+    login_url = '/login/'
+    redirect_field_name = 'login'
 
 
-class ReceitaUpdateView(UpdateView):
+class ReceitaUpdateView(LoginRequiredMixin, UpdateView):
     model = Receita
     fields = [
         'nome_receita', 'ingredientes', 'modo_preparo',
@@ -41,3 +46,5 @@ class ReceitaUpdateView(UpdateView):
     ]
     success_url = reverse_lazy('dashboard')
     template_name_suffix = '_update_form'
+    login_url = '/login/'
+    redirect_field_name = 'login'
