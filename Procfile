@@ -1,1 +1,1 @@
-web: gunicorn setup.wsgi
+web: gunicorn --env DJANGO_SETTINGS_MODULE=src.setup.base.settings setup.wsgi
