@@ -1,7 +1,7 @@
 from setup.settings.base import *
 
 
-DEBUG = env.bool("DEBUG", False)
+DEBUG = env.bool("DEBUG")
 
 SECRET_KEY = env("SECRET_KEY")
 
@@ -11,7 +11,7 @@ DATABASES = {
     "default": env.db(),
 }
 
-USE_AWS = env.bool('USE_AWS', False)
+USE_AWS = env.bool('USE_AWS')
 
 if USE_AWS:
     AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
