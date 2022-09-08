@@ -1,1 +1,1 @@
-web: gunicorn alurareceita.wsgi
+web: gunicorn setup.wsgi --log-file -
