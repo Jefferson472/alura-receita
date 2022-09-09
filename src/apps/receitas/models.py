@@ -17,9 +17,10 @@ class Receita(models.Model):
     update_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        app_label = 'receitas'
+        db_table = 'receitas'
         verbose_name = 'Receitas'
         verbose_name_plural = 'Receitas'
-        db_table = 'receitas'
 
     def __str__(self):
         return self.nome_receita
