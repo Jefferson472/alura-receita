@@ -1,5 +1,5 @@
 from django.urls import reverse, resolve
-from django.test import TestCase
+from django.test import TestCase, Client
 
 
 class TestReceitasURLs(TestCase):
@@ -20,3 +20,25 @@ class TestReceitasURLs(TestCase):
         self.assertEqual(resolve('/receita/criar').view_name, 'cria_receita')
         self.assertEqual(resolve('/receita/editar/1').view_name, 'edita_receita')
         self.assertEqual(resolve('/receita/deletar/1').view_name, 'deleta_receita')
+    
+    def test_urls_login(self):
+        resp = self.client.post(
+            '/login/',
+            {'username': 'user_teste', 'password':'123456'}
+        )
+        self.assertEqual(resp.status_code, 200)
+
+    def test_urls_logout(self):
+        """Teste logout redireciona p/ index ('/')"""
+        
+        resp = self.client.get('/logout/')
+        self.assertEqual(resp.url, '/')
+        self.assertEqual(resp.status_code, 302)
+
+
+    def test_url_create_without_login(self):
+        """Acessar criar receita s/ estar logado redireciona p/ login"""
+
+        resp = self.client.get('/receita/criar')
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(resp, '/login/?login=/receita/criar')

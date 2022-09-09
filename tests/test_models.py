@@ -1,15 +1,14 @@
 from django.contrib.auth.models import User
-from django.test import TestCase
+from django.test import TestCase, Client
 
 from apps.receitas.models import Receita
 
 
 class TestReceitaModels(TestCase):
     def setUp(self):
-        self.user = User.objects.create(
-            username='test_user',
-            password='123456'
-        )
+        self.user = User.objects.create(username='test_user')
+        self.user.set_password('123456')
+        self.user.save()
 
         self.receita = Receita.objects.create(
             user=self.user, 
@@ -28,3 +27,11 @@ class TestReceitaModels(TestCase):
 
     def test_title(self):
         self.assertEqual(self.receita.nome_receita, 'Receita Teste')
+
+    def test_login_logout(self):
+        client = Client()
+        logged_in = client.login(username='test_user', password='123456')
+        self.assertTrue(logged_in)
+        logout = client.logout()
+        self.assertFalse(logout)
+        
