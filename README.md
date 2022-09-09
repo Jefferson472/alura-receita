@@ -16,6 +16,10 @@ Projeto Django para cadastro de receitas desenvolvido durante o curso [Formaçã
 
 O projeto está disponível no link: https://www.alura.com.br/formacao-django
 
+<div align="center">
+    <img src="docs\alura_receita_tour.gif" width="400" height="200" />
+</div>
+
 ---
 
 ## Requirements
@@ -41,13 +45,15 @@ Para executar o projeto forneça uma `SECRET_KEY` no arquivo `.env` e execute os
 
 `python -m pip freeze -r requirements.txt`
 
-`python src/api/manage.py migrate`
+`python src/manage.py migrate`
 
-`python src/api/manage.py createsuperuser`
+`python src/manage.py createsuperuser`
 
-`python src/api/manage.py runserver`
+`python src/manage.py runserver`
 
 ---
-<div align="center">
-    <img src="docs\alura_receita_tour.gif" width="400" height="200" />
-</div>
+
+## Testes
+Os testes podem ser executados através do comando:
+
+`python src/manage.py test --debug-mode`
