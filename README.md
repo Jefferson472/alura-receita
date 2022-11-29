@@ -15,6 +15,7 @@
 Projeto Django para cadastro de receitas desenvolvido durante o curso [Formação Django da Alura](https://www.alura.com.br/formacao-django). O projeto foi desenvolvido utilizando Python, Django com deploy na plataforma [Heroku](https://www.heroku.com), as imagens estão sendo hospedadas em um [Bucket S3 AWS](https://aws.amazon.com/pt/s3/).
 
 O projeto está disponível no link: [alura-receita-django.herokuapp.com](https://alura-receita-django.herokuapp.com)
+> ***Obs.: Devido as recentes alterações dos planos do Heroku, o site foi temporariamente desativado até eu encontrar outra opção viável.***
 
 <div align="center">
     <img src="docs\alura_receita_tour.gif" width="400" height="200" />
