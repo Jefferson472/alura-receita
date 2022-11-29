@@ -2,5 +2,5 @@ services:
   - type: web
     name: alura-receita
     env: python
-    buildCommand: "./build.sh"
-    startCommand: "gunicorn --pythonpath src setup.wsgi"
+    buildCommand: ./build.sh
+    startCommand: gunicorn --pythonpath src setup.wsgi
